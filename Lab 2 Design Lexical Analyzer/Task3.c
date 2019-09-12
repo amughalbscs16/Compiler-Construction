@@ -4,29 +4,29 @@
 /*
 Enter a string and differentiate the identifiers and operators
 */
-bool isOperator(char opr);
+bool isSpecialCharacter(char sp);
 bool isIdentifier(char identifier[],int,int);
 int main()
 {
 
-	int i,j,k,idenIndex=0,oprIndex = 0;
-	bool oprAlready=false;
+	int i,j,k,idenIndex=0,spIndex = 0;
+	bool spAlready=false;
 	char identifierList[5][20] = {"","","","",""};
-	char oprList[4];
+	char spList[100];
 	char inputlexical[40];
 	int tmplastvar=0,linescount = 1;
 	printf("Enter the program: ");
 	scanf("%[^\n]s", inputlexical);
+	
 	
 	for (i=0;inputlexical[i]!='\0';i++)
 	{
 		
 		if (inputlexical[i] == '\n')
 		linescount++;
-		if (isOperator(inputlexical[i]) || inputlexical[i] == ' ' || inputlexical[i] == '\t')
+		if (isSpecialCharacter(inputlexical[i]) || inputlexical[i] == ' ' || inputlexical[i] == '\t')
 		{
-			printf("operator %c \n",inputlexical[i]);
-			printf("starting var: %c %c \n", inputlexical[tmplastvar], inputlexical[i-1]);
+			//printf("starting var: %c %c \n", inputlexical[tmplastvar], inputlexical[i-1]);
 			if (isIdentifier(inputlexical,tmplastvar,i-1))
 			{
 				for (j=tmplastvar;j<=i-1;j++)
@@ -34,25 +34,24 @@ int main()
 					identifierList[idenIndex][j-tmplastvar] = inputlexical[j];
 				}
 				
-				printf("identifier %s\n", identifierList[idenIndex]);
+				//printf("identifier %s\n", identifierList[idenIndex]);
 				idenIndex++;
 			}
 			tmplastvar = i+1;
-			//if operator already there don't add it
-			
-			for (k=0;k<4;k++)
+			//if special character already there don't add it
+			for (k=0;k<100;k++)
 			{
-				if (inputlexical[i] == oprList[i])
+				if (inputlexical[i] == spList[i])
 				{
-					oprAlready=true;
+					spAlready=true;
 				}
 			}
 		
-			if (!oprAlready)
+			if (!spAlready && !(inputlexical[i] == ' ' || inputlexical[i] == '\t'))
 			{
-				oprList[oprIndex] = inputlexical[i];
-				oprIndex++;
-				oprAlready=false;
+				spList[spIndex] = inputlexical[i];
+				spIndex++;
+				spAlready=false;
 			}
 		}
 		if (inputlexical[i+1] == '\0')
@@ -65,28 +64,33 @@ int main()
 					//printf("%d %d", j-tmplastvar, j);
 				}
 				
-				printf("identifier %s\n", identifierList[idenIndex]);
+				//printf("identifier %s\n", identifierList[idenIndex]);
 				idenIndex++;
 			}
 		}
 		
 	}
-	printf("%s\n", identifierList[2]);
-	printf("%s\n", inputlexical);
-	printf("The number of lines: %d", linescount);
+	printf("The keywords and identifiers are:\n");
+	
+	for (i=0;i<idenIndex;i++){
+		if (isSpecialCharacter(inputlexical[0]) && i == 0)
+		continue;
+		printf("%s in an identifier\n",identifierList[i]);
+	}
+	printf("Special characters are ");
+	for (i=0;i<spIndex;i++)
+	printf("%c", spList[i]);
+	
+	printf("\nThe number of lines: %d", linescount);
 	return 0;
 }
 
-bool isOperator(char opr){
-	switch(opr){
-		case '*':
-		case '-':
-		case '+':
-		case '/':
-			return true;
-		default:
-			return false;
-	}
+bool isSpecialCharacter(char opr){
+	if (!(opr == '_' || (opr >= 'A' && opr <= 'Z') || (opr >= 'a' && opr <= 'z') || (opr >= '0' && opr <= '9')))
+		return true;
+	
+	else
+		return false;
 }
 
 bool isIdentifier(char identifier[],int firstvar,int lastvar){
