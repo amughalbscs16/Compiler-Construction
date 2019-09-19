@@ -9,6 +9,7 @@ using namespace std;
 int main()
 {
 	vector<string> variables;
+	vector<string> notvariables;
 	string tmpvar = "";
 	map<char,char> schars;
 	schars.insert(pair<char,char> ('+','+'));
@@ -61,9 +62,35 @@ int main()
 	//cout << lCount;
 	cout << "The Variables or Identifiers are: " << endl;
 	
+	for (i=0;i<variables.size();i++)
+	{
+		if (! ( (variables[i][0] >= 'a' && variables[i][0]<='z') || (variables[i][0]>='A' && variables[i][0]<='Z') || variables[i][0] == '_' ))
+		{
+			notvariables.push_back(variables[i]);
+			variables.erase(variables.begin() + i);
+			continue;
+			i--;
+		}
+		for (j=1;j<variables[i].length();j++)
+		{
+			if (! ( (variables[i][j]>='a' && variables[i][j] <= 'z') || (variables[i][j]>='A' && variables[i][j]<='Z') || (variables[i][j]>='0' && variables[i][j]<='9') || variables[i][j] == '_' ) )
+			{
+			notvariables.push_back(variables[i]);
+			variables.erase(variables.begin() + i);
+			i--;
+			break;
+			}
+		}
+	}
+	
 	for (int i=0;i<variables.size();i++)
 	{
 		cout << variables[i] << endl;
+	}
+	cout << endl << "*** Not variables list *** " << endl;
+	for (int i=0;i<notvariables.size();i++)
+	{
+		cout << notvariables[i] << endl;
 	}
 	
 	map<char, char>::iterator itr;
@@ -72,6 +99,7 @@ int main()
 	{
 		cout << itr->first << " ";
 	}
+	cout << endl <<  "Lines Count: " << lCount;
 	
 	
 	return 0;

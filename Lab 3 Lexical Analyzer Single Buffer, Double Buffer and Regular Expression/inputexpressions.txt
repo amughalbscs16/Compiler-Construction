@@ -1,3 +1,4 @@
 ali1 = kamran + three;
 three = four - one;
 ali = good + bad;
+goog! = !sgood + goods;
