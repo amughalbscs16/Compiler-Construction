@@ -42,7 +42,11 @@ int main()
 						for (int j=begin; j<=forward;j++)
 						{
 							if (buffer[j] != ' ')
-							tmpvar=tmpvar+buffer[j];	
+							{
+							tmpvar=tmpvar+buffer[j];
+							if (! ((buffer[j] >= 'a' && buffer[j] <= 'z' ) || (buffer[j] >= 'A' &&buffer[j] <= 'Z' ) || (buffer[j] >= '0' &&buffer[j] <= '9' )))
+							schars.insert(pair<char,char> (buffer[j],buffer[j]));
+							}
 						} 
 						variables.push_back(tmpvar);
 					}
@@ -55,9 +59,21 @@ int main()
 		}
 	}
 	//cout << lCount;
+	cout << "The Variables or Identifiers are: " << endl;
+	
 	for (int i=0;i<variables.size();i++)
 	{
 		cout << variables[i] << endl;
 	}
+	
+	map<char, char>::iterator itr;
+	cout << endl << endl << "Special Characters and opertors are: " ; 	
+	for (itr = schars.begin(); itr != schars.end(); ++itr)
+	{
+		cout << itr->first << " ";
+	}
+	
+	
 	return 0;
 }
+
