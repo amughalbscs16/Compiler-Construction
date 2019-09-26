@@ -15,7 +15,7 @@ int main()
 	int elem;
 	while (1)
 	{
-		printf("1. Push\n2. Pop\n3. Exit\n");
+		printf("Queue\n1. Push\n2. Pop\n3. Exit\n");
 		scanf(" %d", &choice);
 	
 		if (choice == 1)
@@ -31,15 +31,23 @@ int main()
 		}
 		else if (choice == 3)
 		break;
+		
 	}
 	return 0;
 }
 int pop()
 {
+	int i;
 	if ( top >= 0 )
 	{
-		top -= 1;
-		return array[top + 1];
+		int retelem = array[0];
+		for (i=0;i<top;i++)
+		{
+			if (top!=0)
+			array[i] = array[i+1];
+		}
+		top--;
+		return retelem;
 	}
 }
 void push(int elem)
